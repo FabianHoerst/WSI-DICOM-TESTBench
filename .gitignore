@@ -1,0 +1,7 @@
+.DS_Store
+.idea
+.ipynb_checkpoints
+
+# notebooks
+notebooks/input_files
+notebooks/output_files

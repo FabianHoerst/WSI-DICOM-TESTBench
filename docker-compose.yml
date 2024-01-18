@@ -1,0 +1,80 @@
+version: "3.7"
+
+services:
+  nginx:
+    build: nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+      - "81:81"
+    depends_on:
+      - orthanc
+
+  orthanc-index-db:
+    image: postgres
+    restart: unless-stopped
+    env_file:
+      - environments/orthanc/orthanc-index-db.env
+
+  orthanc:
+    image: osimis/orthanc
+    restart: unless-stopped
+    depends_on:
+      - orthanc-index-db
+      - minio
+    ports:
+      - "104:4242"
+#      - "80:8042"
+    expose:
+      - 8042
+    volumes:
+      - "orthanc-storage:/var/lib/orthanc/db:Z"
+    env_file:
+      - environments/orthanc/orthanc.env
+
+  # analysis
+  jupyter:
+    image: likewest/jupyter-wsi-analysis:torch # for customized build, use build: jupyter
+    depends_on:
+      - minio
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - minio_storage:/minio_storage
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files
+    env_file:
+      - environments/jupyter/jupyter.env
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
+
+  minio:
+    image: bitnami/minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_storage:/wsi-storage
+    env_file:
+      - environments/minio/minio.env
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add storage http://minio:9000 demo demodemo;
+      /usr/bin/mc mb storage/wsi-storage;
+      /usr/bin/mc mb storage/orthanc;
+      /usr/bin/mc alias set storage http://minio:9000 demo demodemo;
+      /usr/bin/mc event add storage/wsi-storage arn:minio:sqs::DJANGO:webhook --event 'put,delete'
+      "
+
+volumes:
+  orthanc-storage:
+  minio_storage:

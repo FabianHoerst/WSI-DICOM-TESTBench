@@ -1,0 +1,12 @@
+Pillow
+ipywidgets
+openslide-python
+matplotlib
+pyvips
+minio
+pandas
+numpy
+pyarrow
+jupyterlab-lsp
+jupyter-resource-usage
+jedi-language-server
