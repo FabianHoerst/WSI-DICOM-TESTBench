@@ -36,7 +36,7 @@ services:
 
   # analysis
   jupyter:
-    image: likewest/jupyter-wsi-analysis:torch # for customized build, use build: jupyter
+    image: likewest/jupyter-wsi-analysis:torch-1.0.2 # for customized build, use build: jupyter
     depends_on:
       - minio
     restart: unless-stopped
@@ -45,8 +45,8 @@ services:
     volumes:
       - ./notebooks:/home/jovyan/work
       - minio_storage:/minio_storage
-      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files
-      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files    # TODO: Adapt this path
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files  # TODO: Adapt this path
     env_file:
       - environments/jupyter/jupyter.env
     command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
