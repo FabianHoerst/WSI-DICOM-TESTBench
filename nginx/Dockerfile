@@ -1,5 +1,5 @@
-FROM ohif/viewer:v4.12.26.18765 as ohif
-#FROM ohif/app:v3.7.0 as ohif # currently not working with our setup but will be fixed
+#FROM ohif/viewer:v4.12.26.18765 as ohif
+FROM ohif/app:v3.7.0 as ohif
 
 FROM nginx:1.21-alpine
 
