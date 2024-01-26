@@ -28,9 +28,6 @@ Access Point: http://localhost:81/
 **Jupyter**
 Jupyter notebook access: http://localhost:8888
 
-**Code-Server**
-Code-Server access: http://localhost:8443
-
 **Minio**
 Minio server access: http://localhost:9001 and http://localhost:9000
 Username: demo
