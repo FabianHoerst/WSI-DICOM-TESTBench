@@ -1,6 +1,6 @@
 Pillow
 ipywidgets
-openslide-python
+openslide-python==1.3.1
 matplotlib
 pyvips
 minio
