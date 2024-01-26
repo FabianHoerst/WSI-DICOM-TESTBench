@@ -45,8 +45,8 @@ services:
     volumes:
       - ./notebooks:/home/jovyan/work
       - minio_storage:/minio_storage
-      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files
-      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files    # TODO: Adapt this path
+      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files  # TODO: Adapt this path
     env_file:
       - environments/jupyter/jupyter.env
     command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
