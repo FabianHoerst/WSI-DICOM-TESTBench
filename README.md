@@ -5,7 +5,7 @@ This repository provides a Docker Compose configuration for setting up a test en
 ### Usage
 1. Clone this repository: 
 2. Modify environment files (orthanc-index-db.env, orthanc.env, jupyter.env, minio.env) as needed.
-3. Run `docker-compose up -d`` to start the services.
+3. Run `docker-compose up -d` to start the services.
 
 Feel free to adapt this configuration to suit your specific testing requirements.
 
