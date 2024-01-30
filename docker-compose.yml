@@ -4,8 +4,8 @@ services:
   nginx:
     build: nginx
     restart: unless-stopped
-    volumes:
-      - ./nginx-conf:/etc/nginx/conf.d
+#    volumes:
+#      - ./nginx-conf:/etc/nginx/conf.d
     ports:
       - "80:80"
       - "81:81"
@@ -33,24 +33,7 @@ services:
       - "orthanc-storage:/var/lib/orthanc/db:Z"
     env_file:
       - environments/orthanc/orthanc.env
-
-  # analysis
-  jupyter:
-    image: likewest/jupyter-wsi-analysis:torch # for customized build, use build: jupyter
-    depends_on:
-      - minio
-    restart: unless-stopped
-    ports:
-      - "8888:8888"
-    volumes:
-      - ./notebooks:/home/jovyan/work
-      - minio_storage:/minio_storage
-#      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Input-Files:/home/jovyan/work/input_files
-#      - /Users/fhoerst/Fabian-Projekte/DICOM-WSI/Output-Files:/home/jovyan/work/output_files
-    env_file:
-      - environments/jupyter/jupyter.env
-    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''"
-
+      
   minio:
     image: bitnami/minio
     restart: unless-stopped
